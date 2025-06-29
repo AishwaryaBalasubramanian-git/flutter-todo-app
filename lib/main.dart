@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'core/theme/app_theme.dart';
 import 'core/services/database_service.dart';
 import 'core/services/auth_service.dart';
@@ -14,25 +13,25 @@ import 'features/splash/splash_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize Firebase
   await Firebase.initializeApp();
-  
+
   // Initialize Crashlytics
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-  
+
   // Initialize Database
   await DatabaseService.instance.initDatabase();
-  
+
   // Initialize SharedPreferences
   final prefs = await SharedPreferences.getInstance();
-  
+
   runApp(TodoApp(prefs: prefs));
 }
 
 class TodoApp extends StatelessWidget {
   final SharedPreferences prefs;
-  
+
   const TodoApp({super.key, required this.prefs});
 
   @override
@@ -60,6 +59,24 @@ class TodoApp extends StatelessWidget {
             home: const SplashScreen(),
           );
         },
+      ),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: const Text('Todo App')),
+        body: const Center(child: Text('0')),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
